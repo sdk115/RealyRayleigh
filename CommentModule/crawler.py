@@ -3,7 +3,6 @@ from bs4 import BeautifulSoup
 from urllib.parse import urlparse, parse_qs, urljoin
 import webtoon_config as WC
 import json
-
 	link = "https://apis.naver.com/commentBox/cbox/web_naver_list_jsonp.json?ticket=news&templateId=view_politics&pool=cbox5&lang=ko&country=KR&objectId=news437%2C0000154091&categoryId=&pageSize=10&indexSize=10&groupId=&page=1&initialize=true&useAltSort=true&replyPageSize=30&moveTo=&sort=favorite"
     while True:
         comment_url = make_link(u, page_count)
@@ -44,6 +43,3 @@ if __name__ == "__main__":
             res = rq.get(webtoon_page)
             webtoon_page_soup = BeautifulSoup(res.content, 'lxml')
             data_parse(webtoon_page_soup, webtoon_page)
-
-
-[출처] [crawler] 네이버 웹툰 평점, 댓글 수집|작성자 멍개
