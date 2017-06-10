@@ -42,8 +42,10 @@ def makeSVMData(data, dict, keyword_list):
             try:
                 svmdata[keyword][docID[key_idx]][dict[token[0]]] += 1
             except:
-                svmdata[keyword][docID[key_idx]][dict[token[0]]] = 1
-
+                try:
+                    svmdata[keyword][docID[key_idx]][dict[token[0]]] = 1
+                except:
+                    pass
     pprint.pprint(svmdata)
     return svmdata
 
@@ -70,6 +72,34 @@ def trainSVM(keyword_list):
         cmd = "svm_learn " + key + ".dat" + ' ' + key + ".model"
         os.system(cmd)
 
+
+def test(Dict, keyword_list):
+    conn = pymysql.connect(host='220.230.112.94', user='dbmaster', password='dbmaster', db='spring', charset='utf8')
+    curs = conn.cursor()
+    sql = "select * from new_comment"
+    curs.execute(sql)
+
+    comment_list = curs.fetchall()
+    print(comment_list)
+
+    conn.close()
+
+    svmdata = makeSVMData(comment_list, Dict, keyword_list)
+
+    for keyword in svmdata.keys():
+        f = open("test" + str(keyword) + ".dat", 'w')
+
+        for docID in svmdata[keyword].keys():
+            templist = sorted(svmdata[keyword][docID].items())
+            if str(templist[0][1]) == "2":
+                f.write("-1")
+            else:
+                f.write(str(templist[0][1]))
+            for x in templist[1:]:
+                f.write(' ' + str(x[0]) + ':' + str(x[1]))
+            f.write('\n')
+        f.close()
+
 conn = pymysql.connect(host='220.230.112.94', user='dbmaster', password='dbmaster', db='spring', charset='utf8')
 curs = conn.cursor()
 
@@ -91,3 +121,4 @@ Dict = makeDict([x[3] for x in comment_list])
 SVMData = makeSVMData(comment_list, Dict, keyword_list)
 makeTrainData(SVMData)
 trainSVM(keyword_list)
+test(Dict, keyword_list)

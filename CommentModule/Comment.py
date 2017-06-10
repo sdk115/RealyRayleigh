@@ -35,7 +35,6 @@ def getComment(key_id, turl, pageSize = 10, page = 1):
         comment_list = content['result']['commentList']
         data = []
 
-
         for i in range(len(comment_list)):
             comment = comment_list[i]['contents']
             commentNo = comment_list[i]['commentNo']
@@ -49,7 +48,7 @@ def getComment(key_id, turl, pageSize = 10, page = 1):
         print(data2)
         conn = pymysql.connect(host='220.230.112.94', user='dbmaster', password='dbmaster', db='spring', charset='utf8')
         curs = conn.cursor()
-        sql = "INSERT INTO news_comment(keyword_id, category_id, comment_no, contents, reg_time, user_name) VALUES(%s, %s, %s, %s, %s, %s)"
+        sql = "INSERT INTO new_comment(keyword_id, category_id, comment_no, contents, reg_time, user_name) VALUES(%s, %s, %s, %s, %s, %s)"
         curs.executemany(sql, data2)
         conn.commit()
         conn.close()
@@ -102,10 +101,12 @@ print(rows)
 # Connection 닫기
 conn.close()
 
-for x in rows:
-    key = x[1]
-    key_id = x[0]
-    print(key_id, key)
-    Links = getLinks(quote(key.encode('euc-kr')))
-    for i in range(len(Links)):
-        asdf = getAllComment(key_id, Links[i], 30)
+#for x in rows:
+#    key = x[1]
+#    key_id = x[0]
+#    print(key_id, key)
+#    Links = getLinks(quote(key.encode('euc-kr')))
+#    for i in range(len(Links)):
+#        asdf = getAllComment(key_id, Links[i], 30)
+
+getComment(1, "http://news.naver.com/main/read.nhn?mode=LSD&mid=shm&sid1=100&oid=032&aid=0002794373", 50)
