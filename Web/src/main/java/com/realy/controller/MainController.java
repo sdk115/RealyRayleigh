@@ -32,13 +32,21 @@ public class MainController {
 	@RequestMapping({"/commentView/{id}" })
 	public String comment(Model model, @PathVariable int id) {
 		NewsKeyword keyword = keywordRespository.findById(id);
-		List<NewsComment> cl1 = newsCommnetRespository.findByKeywordIdAndCategoryId(id, 1);
-		List<NewsComment> cl2 = newsCommnetRespository.findByKeywordIdAndCategoryId(id, 2);
+		List<NewsComment> cl1 = newsCommnetRespository.findByKeywordIdAndCategoryIdOrderByRegTimeDesc(id, 1);
+		List<NewsComment> cl2 = newsCommnetRespository.findByKeywordIdAndCategoryIdOrderByRegTimeDesc(id, 2);
+		int size1 = cl1.size();
+		int size2 = cl2.size();
+		
+		if(size1 > 50)
+			cl1 =cl1.subList(0, 50);
+		if(size2 > 50)
+			cl2 = cl2.subList(0, 50);
+		
 		model.addAttribute("keyword", keyword.getKeyword());
 		model.addAttribute("commentList1", cl1);
-		model.addAttribute("size1", cl1.size());
+		model.addAttribute("size1", size1);
 		model.addAttribute("commentList2", cl2);
-		model.addAttribute("size2", cl2.size());
+		model.addAttribute("size2", size2);
 		
 		return "commentView";
 	}
