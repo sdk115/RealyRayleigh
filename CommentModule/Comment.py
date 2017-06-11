@@ -72,10 +72,15 @@ def getLinks(keyword, page=1):
     return links
 
 def insert(data):
-    conn = pymysql.connect(host='220.230.112.94', user='dbmaster', password='dbmaster', db='spring', charset='utf8')
+    print(data)
+    conn = pymysql.connect(host='220.230.112.94', user='dbmaster', password='dbmaster', db='spring', charset='utf8mb4')
     curs = conn.cursor()
-    sql = "INSERT INTO new_comment(keyword_id, category_id, comment_no, contents, reg_time, user_name) VALUES(%s, %s, %s, %s, %s, %s)"
-    curs.executemany(sql, tuple(data))
+    sql = "INSERT IGNORE INTO news_comment(keyword_id, category_id, comment_no, contents, reg_time, user_name) VALUES(%s, %s, %s, %s, %s, %s)"
+    try:
+        curs.executemany(sql, data)
+    except pymysql.IntegrityError:
+        pass
+
     conn.commit()
     conn.close()
 
@@ -86,7 +91,7 @@ url = "http://news.naver.com/main/hotissue/read.nhn?mid=hot&sid1=100&cid=1063803
 #print()
 
 #MySQL Connection 연결
-conn = pymysql.connect(host='220.230.112.94', user='dbmaster', password='dbmaster', db='spring', charset='utf8')
+conn = pymysql.connect(host='220.230.112.94', user='dbmaster', password='dbmaster', db='spring', charset='utf8mb4')
 # Connection 으로부터 Cursor 생성
 curs = conn.cursor()
 
@@ -107,13 +112,15 @@ print(comment_list)
 # Connection 닫기
 conn.close()
 
-Dict = d.makeDict([x[3] for x in comment_list])
+Dict = d.loadDict()
 
 for x in keyword_list:
     keyword = x[1]
     keyword_idx = x[0]
+    if keyword_idx == 1 or keyword_idx == 2 or keyword_idx == 3 or keyword_idx == 4 or keyword_idx == 6:
+        continue
     print(keyword_idx, keyword)
-    Links = getLinks(quote(keyword.encode('euc-kr')))
+    Links = getLinks(quote(keyword.encode('euc-kr')), 1)
     for i in range(len(Links)):
         comments = getAllComment(keyword_idx, Links[i], 30)
         if comments:
@@ -127,5 +134,7 @@ for x in keyword_list:
             for j in range(len(comments)):
                 comments[j][1] = classes[j]
             print(len(comments), comments)
+
+            insert(tuple([tuple(x) for x in comments]))
 
 #getComment(1, "http://news.naver.com/main/read.nhn?mode=LSD&mid=shm&sid1=100&oid=032&aid=0002794373", 50)

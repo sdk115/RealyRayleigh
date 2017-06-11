@@ -12,11 +12,10 @@ def trainSVM(keyword_list):
 def test(Dict, keyword_list):
     conn = pymysql.connect(host='220.230.112.94', user='dbmaster', password='dbmaster', db='spring', charset='utf8')
     curs = conn.cursor()
-    sql = "select * from new_comment"
+    sql = "select * from news_comment"
     curs.execute(sql)
 
     comment_list = curs.fetchall()
-    print(comment_list)
 
     conn.close()
 
@@ -49,12 +48,13 @@ sql = "select * from news_comment"
 curs.execute(sql)
 
 comment_list = curs.fetchall()
-print(comment_list)
 
 conn.close()
 print(comment_list)
-Dict = d.makeDict([x[3] for x in comment_list])
+Dict = d.loadDict()
+print("dict", Dict)
 SVMData = d.makeSVMData(comment_list, Dict, keyword_list)
+print("svm", SVMData)
 d.svmData2dat(SVMData, True)
 trainSVM(keyword_list)
 test(Dict, keyword_list)

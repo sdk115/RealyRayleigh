@@ -1,18 +1,43 @@
 from twkorean import TwitterKoreanProcessor
+import pymysql
 import os
 
 def makeDict(commentData):
-    d = {}
+    d = []
     processor = TwitterKoreanProcessor()
-    term_num = 0
 
     for text in commentData:
         tokens = processor.tokenize(text)
         processed = [x for x in tokens if x[1] == 'Noun' or x[1] == 'Verb' or x[1] == 'Adjective']
         for token in processed:
-            if token[0] not in d.keys():
-                term_num += 1
-                d[token[0]] = term_num
+            if token[0] not in d:
+                d.append(token[0])
+
+    conn = pymysql.connect(host='220.230.112.94', user='dbmaster', password='dbmaster', db='spring', charset='utf8mb4')
+    curs = conn.cursor()
+    sql = "INSERT INTO dictionary(term) VALUES(%s)"
+    try:
+        curs.executemany(sql, tuple(d))
+    except pymysql.IntegrityError:
+        pass
+
+    conn.commit()
+    conn.close()
+
+    return d
+
+def loadDict():
+
+    conn = pymysql.connect(host='220.230.112.94', user='dbmaster', password='dbmaster', db='spring', charset='utf8mb4')
+    curs = conn.cursor()
+    sql = "select term, id from dictionary"
+    dict_size = curs.execute(sql)
+    rows = curs.fetchall()
+
+    print(dict_size, rows)
+    d = dict(rows)
+
+    conn.close()
     return d
 
 def makeSVMData(data, dict, keyword_list):
