@@ -1,0 +1,16 @@
+@CHARSET "UTF-8";
+
+.comment-reg{
+	float:right;
+	color:#888888;
+	font-size: 0.8rem;
+}
+
+#title{
+	margin-bottom : 20px;
+	text-align: center;
+}
+#static-text{
+	margin-top : -20px;
+	text-align: center;
+}

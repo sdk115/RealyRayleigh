@@ -1,0 +1,32 @@
+spring:
+    mvc:
+        view:
+            prefix: /WEB-INF/jsp/
+            suffix: .jsp
+    social:
+        facebook:
+            appId: 487654301400466
+            appSecret: 3ec76bf19fbfeaf187a6673d1cf16411
+    jpa:
+        show-sql: true
+        hibernate:
+            ddl-auto: none
+    datasource:
+        url: jdbc:mysql://220.230.112.94:3306/spring?autoReconnect=true&useSSL=false
+        username: dbmaster
+        password: dbmaster
+        test-on-borrow: true
+        validation-query: SELECT 1
+    jackson:
+        date-format: yyyy-MM-dd'T'HH:mm:ss.SSSXXX
+        time-zone : Asia/Seoul
+#        deserialization:
+#            unwrap-root-value: true
+#        serialization:
+#            wrap-root-value: true
+
+
+server:
+    error:
+        whitelabel:
+            enabled: false
