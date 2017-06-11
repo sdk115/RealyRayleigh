@@ -1,0 +1,48 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
+<style>
+.menu-border {
+	border-bottom: 1.5px solid;
+	padding-bottom: 20px;
+	margin-bottom: 20px;
+}
+
+.menu-logo {
+	margin-bottom: -20px;
+}
+.menu-button{
+	font-size:0.77rem !important;
+}
+</style>
+
+<div class="menu-border ui container">
+	<div class="ui five column stackable grid">
+		<div class="stretched row">
+			<div class="left floated bottom aligned column">
+				<br>
+				<a href="/">
+					<img class="menu-logo ui centered medium image" src="/image/logo-sm.png" width=200 height=70>
+				</a>
+			</div>
+			<div class="centered bottom aligned center aligned seven wide column">
+				<div class="ui fluid breadcrumb">
+					<span class="ui small grey header">정책 이슈 6개</span> <i class="divider"> / </i> <span class="ui small grey header">기사 572개</span> <i class="divider"> / </i> <span class="ui small grey header">댓글 3820개</span>
+				</div>
+			</div>
+			<div class="right floated right aligned bottom aligned column">
+				<div class="ui left aligned fluid mini search">
+					<div class="ui fluid icon input">
+						<button class="ui right labeled icon dropdown theme basic  button mini menu-button">
+							<i class="add user icon"></i> 회원가입
+						</button>
+						<button class="ui right labeled icon  theme basic   button mini menu-button">
+							<i class="facebook icon"></i> 로그인
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
