@@ -5,8 +5,8 @@ spring:
             suffix: .jsp
     social:
         facebook:
-            appId: 487654301400466
-            appSecret: 3ec76bf19fbfeaf187a6673d1cf16411
+            appId: 463974963950009
+            appSecret: 1a253ae85a38eb6ca29c84c238530369
     jpa:
         show-sql: true
         hibernate:

@@ -23,10 +23,12 @@
 
 <script>
 	var keywordList = new Array();
-	<c:forEach items="${keywordList}" var="keyword">
+	<c:forEach items="${keywordList}" var="keyword"  varStatus="status">
 	    var keyword = new Object();
 	    keyword.text = '${keyword.keyword}';
-	    keyword.size = Math.random()*100;
+	    
+	    
+	    keyword.size = ${ Math.max( 14.4,Math.sqrt(Math.sqrt(countList[status.index]+1))*10 ) }
 	    keyword.id = '${keyword.id}'
 	    keyword.url = '/commentView/' + '${keyword.id}'
 	    keywordList.push(keyword);
@@ -37,7 +39,7 @@
 			[ 0, 1, 2, 3, 4, 5, 6, 10, 15, 20, 100 ]).range(
 			[ "#333", "#444", "#555", "#666", "#777", "#888", "#999", "#aaa",
 					"#bbb", "#ccc", "#ddd", "#eee" ]);
-
+	
 	d3.layout.cloud().size([ 900, 400 ]).words(keywordList).rotate(0)
 			.fontSize(function(d) {
 				return d.size;

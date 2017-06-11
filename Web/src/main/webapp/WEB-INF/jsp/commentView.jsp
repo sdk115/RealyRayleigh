@@ -42,9 +42,7 @@
 						 
 						<div class="ui divider "></div>
 						${comment.contents}
-
 					</div>
-
 				</c:forEach>
 
 			</div>
