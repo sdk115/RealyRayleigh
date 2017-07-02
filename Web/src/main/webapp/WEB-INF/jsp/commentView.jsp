@@ -1,45 +1,104 @@
 <%@page import="java.util.ArrayList"%>
 <%@page import="com.realy.model.*"%>
-<%@page import="com.fasterxml.jackson.databind.jsonFormatVisitors.JsonArrayFormatVisitor"%>
+<%@page
+	import="com.fasterxml.jackson.databind.jsonFormatVisitors.JsonArrayFormatVisitor"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <%@ include file="/WEB-INF/jspf/head.jspf"%>
 <link rel="stylesheet" type="text/css" href="/css/commentView.css">
-<script type="text/javascript" src="http://mbostock.github.com/d3/d3.js?2.1.3"></script>
-<script type="text/javascript" src="http://mbostock.github.com/d3/d3.geom.js?2.1.3"></script>
-<script type="text/javascript" src="http://mbostock.github.com/d3/d3.layout.js?2.1.3"></script>
+<script type="text/javascript"
+	src="http://mbostock.github.com/d3/d3.js?2.1.3"></script>
+<script type="text/javascript"
+	src="http://mbostock.github.com/d3/d3.geom.js?2.1.3"></script>
+<script type="text/javascript"
+	src="http://mbostock.github.com/d3/d3.layout.js?2.1.3"></script>
+<script type="text/javascript" src="/js/in_commentView.js"></script>
 </head>
 
 <body>
 	<%@ include file="/WEB-INF/jspf/nav.jspf"%>
 	<div class="main ui container">
-		<div class="ui grid">
-
-			<div class="four wide column ">
-				<div>
-					<h2 id ="title"><${keyword}></h2> 
-				</div>
-				
-				<div id="slice-area"></div>
-				
-				<h4 id= "static-text">
-					찬성 : <fmt:formatNumber value="${ size1 / (size1+size2) * 100}" type="number" pattern="#.#"/>% /
-					반대 : <fmt:formatNumber value="${ size2 / (size1+size2) * 100}" type="number" pattern="#.#"/>%
-				</h4>
-				
+		<div class="ui error message widget" style="position:relative !important; display:inherit ;">
+			<i class="close icon"></i>
+			<div class="header">There were some errors with your submission
 			</div>
+			<ul class="list">
+				<li>You must include both a upper and lower case letters in
+					your password.</li>
+				<li>You need to select your home country.</li>
+			</ul>
+		</div>
+		<div class="ui grid">
+			<div class="four wide column ">
+				<div class="statics-area">
+					<div>
+						<h2 id="title" class="title-text"><${keyword}></h2>
+					</div>
+
+					<div id="slice-area"></div>
+
+					<h4 id="static-text">
+						찬성 :
+						<fmt:formatNumber value="${ size1 / (size1+size2) * 100}"
+							type="number" pattern="#.#" />
+						% / 반대 :
+						<fmt:formatNumber value="${ size2 / (size1+size2) * 100}"
+							type="number" pattern="#.#" />
+						%
+					</h4>
+				</div>
+
+				<div class="comment-area">
+					<div class="ui segment">
+						<h3>댓글 남기기</h3>
+						<div class="ui divider"></div>
+						<form class="ui form" id="commentForm">
+							<div class="two fields">
+								<div class="field">
+									<div class="ui checkbox">
+										<input type="radio" name="agree" value="true" id="agreeRadio"
+											class="form-control"> <label>찬성</label>
+									</div>
+								</div>
+								<div class="field">
+									<div class="ui  checkbox">
+										<input type="radio" name="agree" value="false"
+											id="disagreeRadio" class="form-control"> <label>반대</label>
+									</div>
+								</div>
+							</div>
+
+							<div class="field">
+								<input class="form-control" name="comment" id="commentContent"
+									placeholder="댓글을 남겨보세요 !">
+							</div>
+							<div style="width: 100%; height: 36px;">
+								<div class="ui right floated button" onclick="postComment()">제출</div>
+							</div>
+
+							<input type="hidden" name="keywordId" id="keywordId"
+								value="${keywordId}"></input> <input type="hidden" name="userId"
+								id="userId" value="${user.providerUserId}"></input>
+						</form>
+					</div>
+
+					<div class=""></div>
+				</div>
+			</div>
+
 			<div class="six wide column ">
 				<h3>찬성 - ${size1}건</h3>
 				<c:forEach var="comment" items="${commentList1}">
 					<div class="ui segment">
 						<span class="ui  floated left text comment-nick">${comment.userName}</span>
 						<span class="ui  floated  righttext comment-reg">${comment.regTime}</span>
-						 
+
 						<div class="ui divider "></div>
 						${comment.contents}
 					</div>

@@ -6,11 +6,17 @@
 	font-size: 0.8rem;
 }
 
-#title{
+.title-text{
 	margin-bottom : 20px;
 	text-align: center;
 }
 #static-text{
 	margin-top : -20px;
 	text-align: center;
+}
+#slice-area{
+	margin-top : 15px;
+}
+.comment-area{
+	margin-top : 50px;
 }

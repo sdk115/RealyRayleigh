@@ -75,6 +75,7 @@ public class MainController {
 		if(size2 > 50)
 			cl2 = cl2.subList(0, 50);
 		
+		model.addAttribute("keywordId",id);
 		model.addAttribute("keyword", keyword.getKeyword());
 		model.addAttribute("commentList1", cl1);
 		model.addAttribute("size1", size1);

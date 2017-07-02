@@ -40,19 +40,19 @@
 			[ "#333", "#444", "#555", "#666", "#777", "#888", "#999", "#aaa",
 					"#bbb", "#ccc", "#ddd", "#eee" ]);
 	
-	d3.layout.cloud().size([ 900, 400 ]).words(keywordList).rotate(0)
+	d3.layout.cloud().size([ 900, 750 ]).words(keywordList).rotate(0)
 			.fontSize(function(d) {
 				return d.size;
 			}).on("end", draw).start();
-
+	
 	function draw(words) {
 		var width = $('#wordcloud').width();
-		var height = width*0.3;
-		d3.select("#wordcloud").append("svg").attr("width", 950).attr("height",
-				450).attr("class", "wordcloud").append("g")
+		var height = 700;
+		d3.select("#wordcloud").append("svg").attr("width", 1080).attr("height",
+				700).attr("class", "wordcloud").append("g")
 		// without the transform, words words would get cutoff to the left and top, they would
 		// appear outside of the SVG area
-		.attr("transform", "translate(320,200)").selectAll("text").data(words)
+		.attr("transform", "translate(400,300)").selectAll("text").data(words)
 				.enter().append("text").style("font-size", function(d) {
 					return d.size + "px";
 				}).style("fill", function(d, i) {
