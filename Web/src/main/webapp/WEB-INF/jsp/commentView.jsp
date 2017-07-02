@@ -24,16 +24,7 @@
 <body>
 	<%@ include file="/WEB-INF/jspf/nav.jspf"%>
 	<div class="main ui container">
-		<div class="ui error message widget" style="position:relative !important; display:inherit ;">
-			<i class="close icon"></i>
-			<div class="header">There were some errors with your submission
-			</div>
-			<ul class="list">
-				<li>You must include both a upper and lower case letters in
-					your password.</li>
-				<li>You need to select your home country.</li>
-			</ul>
-		</div>
+		
 		<div class="ui grid">
 			<div class="four wide column ">
 				<div class="statics-area">
