@@ -28,7 +28,7 @@ function warning(text) {
 		position : 'top-center',// position . top And bottom || left / center /
 		// right
 		icon : 'warning sign', // icon in semantic-UI
-		time : 1, // time
+		time : 1.3, // time
 	});
 
 }

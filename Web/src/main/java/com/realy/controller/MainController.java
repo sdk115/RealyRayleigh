@@ -1,5 +1,6 @@
 package com.realy.controller;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.realy.model.NewsComment;
 import com.realy.model.NewsCommentRepository;
@@ -51,7 +53,7 @@ public class MainController {
 			sum+=count;
 			countList.add(count);			
 		}
-		
+		 
 		model.addAttribute("user", user);
 		model.addAttribute("keywordList", keywordList);
 		model.addAttribute("keywordCount", keywordList.size());
@@ -85,10 +87,50 @@ public class MainController {
 		User user = getConnect();
 		model.addAttribute("user", user);
 		
+		return "commentView";
+	}
+	@RequestMapping({"/postComment" })
+	public String postcomment(Model model
+			, @RequestParam("keywordId") int kid, @RequestParam("userId") String uid, @RequestParam("userName") String uname
+			, @RequestParam("comment") String contents, @RequestParam("agree") String agree) {
+		
+		NewsComment comment = new NewsComment();
+		comment.setCategoryId(agree.equals("true")?1:2);
+		comment.setContents(contents);
+		comment.setKeywordId(kid);
+		comment.setRegTime(new Date(new java.util.Date().getTime()));
+		comment.setUserName(uname);
+		
+//		수정 필요
+		comment.setCommentNo( (int)(Math.random() * 500000));
+		
+		newsCommnetRespository.saveAndFlush(comment);
+		
+		
+		NewsKeyword keyword = keywordRespository.findById(kid);
+		List<NewsComment> cl1 = newsCommnetRespository.findByKeywordIdAndCategoryIdOrderByRegTimeDesc(kid, 1);
+		List<NewsComment> cl2 = newsCommnetRespository.findByKeywordIdAndCategoryIdOrderByRegTimeDesc(kid, 2);
+		int size1 = cl1.size();
+		int size2 = cl2.size();
+		model.addAttribute("keywordCount", keywordRespository.findAll().size());
+		model.addAttribute("commentCount", newsCommnetRespository.findAll().size());
+		if(size1 > 50)
+			cl1 =cl1.subList(0, 50);
+		if(size2 > 50)
+			cl2 = cl2.subList(0, 50);
+		
+		model.addAttribute("keywordId",kid);
+		model.addAttribute("keyword", keyword.getKeyword());
+		model.addAttribute("commentList1", cl1);
+		model.addAttribute("size1", size1);
+		model.addAttribute("commentList2", cl2);
+		model.addAttribute("size2", size2);
+		
+		User user = getConnect();
+		model.addAttribute("user", user);
 		
 		return "commentView";
 	}
-	
 	private User getConnect() {
 		Connection<Facebook> connection = connectionRepository.findPrimaryConnection(Facebook.class);
 		if (connection == null) {

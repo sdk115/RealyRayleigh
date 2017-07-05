@@ -49,7 +49,7 @@
 					<div class="ui segment">
 						<h3>댓글 남기기</h3>
 						<div class="ui divider"></div>
-						<form class="ui form" id="commentForm">
+						<form class="ui form" id="commentForm" action="/postComment">
 							<div class="two fields">
 								<div class="field">
 									<div class="ui checkbox">
@@ -76,6 +76,9 @@
 							<input type="hidden" name="keywordId" id="keywordId"
 								value="${keywordId}"></input> <input type="hidden" name="userId"
 								id="userId" value="${user.providerUserId}"></input>
+								
+								<input type="hidden" name="userName" id="userName"
+								value="${user.displayName}">
 						</form>
 					</div>
 

@@ -867,3 +867,4 @@ Servers/Pivotal tc Server Developer Edition v3.2-config/jmxremote.password
 .recommenders/index/http___download_eclipse_org_recommenders_models_neon_/_1.tis
 .recommenders/index/http___download_eclipse_org_recommenders_models_neon_/segments_2
 .recommenders/index/http___download_eclipse_org_recommenders_models_neon_/write.lock
+.metadata/
